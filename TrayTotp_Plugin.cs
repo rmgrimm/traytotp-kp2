@@ -243,12 +243,15 @@ namespace TrayTotpGT
             ContextMenu.DropDownItems.Insert(ContextMenu.DropDownItems.IndexOf(enMenuSetupTotp) + 1, enMenuSeperator);
 
             //Notify Icon Context Menus.
-            m_host.MainWindow.MainNotifyIcon.ContextMenuStrip.Opening += OnNotifyMenuOpening;
-            niMenuTitle = new ToolStripMenuItem(TrayTotp_Plugin_Localization.strTrayTotpPlugin);
-            niMenuTitle.Image = Properties.Resources.TOTP;
-            m_host.MainWindow.MainNotifyIcon.ContextMenuStrip.Items.Insert(0, niMenuTitle);
-            niMenuSeperator = new ToolStripSeparator();
-            m_host.MainWindow.MainNotifyIcon.ContextMenuStrip.Items.Insert(1, niMenuSeperator);
+            var notify = m_host.MainWindow.MainNotifyIcon;
+            if (notify != null) {
+                notify.ContextMenuStrip.Opening += OnNotifyMenuOpening;
+                niMenuTitle = new ToolStripMenuItem (TrayTotp_Plugin_Localization.strTrayTotpPlugin);
+                niMenuTitle.Image = Properties.Resources.TOTP;
+                notify.ContextMenuStrip.Items.Insert (0, niMenuTitle);
+                niMenuSeperator = new ToolStripSeparator ();
+                notify.ContextMenuStrip.Items.Insert (1, niMenuSeperator);
+            }
 
             //Register auto-type function.
             if (m_host.CustomConfig.GetBool(setname_bool_AutoType_Enable, true))
